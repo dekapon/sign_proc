@@ -35,6 +35,17 @@ def create_image(m, n):
 
     img.putpixel((green_x, green_y), (0, 255, 0))
     img.show()
+    img.save('img.png')
+
+def find_pixels(pixel_values):
+    # load image, get image size
+    for x in range(600):
+        for y in range(600):
+            if img.getpixel(x,y) == (0, 255,0):
+                print("pixel pos = " x + " " + y)
+
+
+
 
 
 manual = 0
