@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 from random import randint
 from random import uniform
 
-print(f'Hello world, exercise 1')
+print(f'Hello world, exercise 2')
 """
 print('Enter your name:')
 x = 2
