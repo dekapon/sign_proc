@@ -18,12 +18,13 @@ print('Hello, ' + str(x))
 def create_image(m, n):
     m = int(m)
     n = int(n)
-    img = Image.new('RGB', (600, 600), color='white')
-    #img.save('img.png')
+    global img
+    img = Image.new('RGB', (m, n), color='white')
+    # img.save('img.png')
     for x in range(m):
         for y in range(n):
             if uniform(0.0, 2.0) < 1.0:
-                #img[m, n] = (0, 0, 0)
+                # img[m, n] = (0, 0, 0)
                 img.putpixel((x, y), (0, 0, 0))
             else:
                 img.putpixel((x, y), (255, 0, 0))
@@ -36,16 +37,15 @@ def create_image(m, n):
     img.putpixel((green_x, green_y), (0, 255, 0))
     img.show()
     img.save('img.png')
+    return img
+
 
 def find_pixels(pixel_values):
     # load image, get image size
     for x in range(600):
         for y in range(600):
-            if img.getpixel(x,y) == (0, 255,0):
-                print("pixel pos = " x + " " + y)
-
-
-
+            if img.getpixel((x,y)) == pixel_values:
+                print("pixel pos = " + str(x) + " " + str(y))
 
 
 manual = 0
@@ -53,8 +53,11 @@ if manual:
     m, n = input("enter n and m:").split()
 
 else:
-    #print(ex_0(0, 10, 100))
-    create_image(600, 600)
+    # print(ex_0(0, 10, 100))
+    m = 600
+    n = 600
+    img = create_image(m, n)
+    find_pixels((0, 255, 0))
 
 
 
