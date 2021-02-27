@@ -14,6 +14,7 @@ x = int(x)
 x = x + 2
 print('Hello, ' + str(x))
 """
+global m, n
 
 def create_image(m, n):
     m = int(m)
@@ -35,29 +36,62 @@ def create_image(m, n):
     green_y = green_y % n
 
     img.putpixel((green_x, green_y), (0, 255, 0))
-    img.show()
+    # img.show()
+    plt.imshow(img)
+    plt.show()
     img.save('img.png')
     return img
 
 
 def find_pixels(pixel_values):
     # load image, get image size
-    for x in range(600):
-        for y in range(600):
+    result_x = []
+    result_y = []
+    for x in range(m):
+        for y in range(m):
             if img.getpixel((x,y)) == pixel_values:
-                print("pixel pos = " + str(x) + " " + str(y))
+                # print("pixel pos = " + str(x) + " " + str(y))
+                result_x.append(x)
+                result_y.append(y)
+    return result_x, result_y
+
+def euclidean_distance():
+    x = 0
+    while x < len(result_x):
+        # print("dist:" + str(math.sqrt((result_x[x]-greenPixelPosX[0]) ** 2 + (result_y[x]-greenPixelPosY[0]) ** 2)) )
+        dist.append(math.sqrt((result_x[x]-greenPixelPosX[0]) ** 2 + (result_y[x]-greenPixelPosY[0]) ** 2))
+        x = x + 1
+    return dist
 
 
 manual = 0
 if manual:
+    global m,n
     m, n = input("enter n and m:").split()
 
 else:
     # print(ex_0(0, 10, 100))
-    m = 600
-    n = 600
+    m = 10
+    n = 10
     img = create_image(m, n)
-    find_pixels((0, 255, 0))
+    global result_x, result_y
+    # result_x = []
+    # result_y = []
+    result_x, result_y = find_pixels((255, 0, 0))
+
+    global greenPixelPosX, greenPixelPosY
+    greenPixelPosX = []
+    greenPixelPosY = []
+    greenPixelPosX, greenPixelPosY = find_pixels((0, 255, 0))
+
+    # print(type(greenPixelPosX[0]))
+    # print(len(result_x))
+    global dist
+    dist = []
+    dist = euclidean_distance()
+    print(dist)
+    print(len(result_y))
+    # x = 2
 
 
 
