@@ -60,7 +60,7 @@ def euclidean_distance():
     while x < len(result_x):
         # print("dist:" + str(math.sqrt((result_x[x]-greenPixelPosX[0]) ** 2 + (result_y[x]-greenPixelPosY[0]) ** 2)) )
         dist.append(math.sqrt((result_x[x]-greenPixelPosX[0]) ** 2 + (result_y[x]-greenPixelPosY[0]) ** 2))
-        x = x + 1
+        x += 1
     return dist
 
 
@@ -71,8 +71,8 @@ if manual:
 
 else:
     # print(ex_0(0, 10, 100))
-    m = 10
-    n = 10
+    m = 100
+    n = 100
     img = create_image(m, n)
     global result_x, result_y
     # result_x = []
@@ -89,10 +89,23 @@ else:
     global dist
     dist = []
     dist = euclidean_distance()
-    print(dist)
-    print(len(result_y))
+    # print(dist)
+    # print(len(result_y))
     # x = 2
 
+    hist, bin_edges = np.histogram(dist)
+    # plt.hist(dist)
+    n, bins, patches =plt.hist(x=dist, bins=99, color='black')
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    mean = sum(dist) / len(dist)
+    dist = np.array(dist)
+    print(dist.mean)
+    print(type(dist.mean))
+    plt.title('mean: ' + "{:.2f}".format(dist.mean()) + '   std: ' + "{:.2f}".format(dist.std()) + '   medi: ' + "{:.2f}".format(np.median(dist)))
+    plt.show()
+    # print(len(bins))
+    # print(bin_edges)
 
 
 
