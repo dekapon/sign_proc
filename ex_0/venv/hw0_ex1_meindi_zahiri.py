@@ -26,7 +26,7 @@ def ex_0(a, b, c):
         return -1
 
 
-manual = 1
+manual = 0
 if manual:
     a, b, c = input("the 3 numbers:").split()
     print(ex_0(a, b, c))
