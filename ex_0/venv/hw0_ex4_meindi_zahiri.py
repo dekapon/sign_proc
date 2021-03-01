@@ -3,6 +3,7 @@ from numpy import random
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import time
 
 def ex_0(a, b, c):
     a = int(a)
@@ -37,18 +38,25 @@ def rmse(a, b):
     # res = np.sqrt(res)
 
     res = np.sqrt(((a - b) ** 2).mean())
+    print(res)
     return res
 
-def approx(phase):
-    t = np.linspace(0, 100, 100)
-    x = np.cos(4 * math.pi * t + math.pi / 2)
-    return x
+t = np.linspace(0, 100, 100)
 
-y = ex_0(0, 100, 100)
-plt.plot(t, x, 'r')
-plt.show()
+# add if phase fixed
+# phase = math.pi / 2
 
-print(rmse(x, y))
+phase = math.pi
+steps = 10
+rmseData = []
+for counter in range(steps):
+    x = np.cos(4 * math.pi * t + phase * counter / steps)
+    y = ex_0(0, 100, 100)
+    plt.plot(t, x, 'r')
+    plt.show()
+    time.sleep(0.1)
+    rmseData.append(rmse(x,y))
+print(rmseData)
 
 
 
