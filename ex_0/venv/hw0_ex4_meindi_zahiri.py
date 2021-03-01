@@ -4,40 +4,51 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-from hw0_ex1_meindi_zahiri import ex_0
-# import hw0_ex1_meindi_zahiri
-
-global x, y
+def ex_0(a, b, c):
+    a = int(a)
+    b = int(b)
+    c = int(c)
+    x = np.linspace(a, b, c)
+    if a >= 0 and b >= 0:
+        y = np.arctan(np.tan(2 * math.pi * x))
+        plt.plot(x, y)
+    return y
 
 """
 Just need to change degenerate to 1 or offset to 1. Don't put both of them at 1
 """
-vectorSize = 10
-degenerate = 0
-offset = 0
+def rmse(a, b):
+    vectorSize = 10
+    degenerate = 0
+    offset = 0
 
 
-x=random.randint(100, size=(vectorSize))
-if offset:  # gives 2
-    y = x + 2
-elif degenerate:  # gives 0
-    y = x
-else:
-    y=random.randint(100, size=(vectorSize))
+    a=random.randint(100, size=(vectorSize))
+    if offset:  # gives 2
+        b = a + 2
+    elif degenerate:  # gives 0
+        b = a
+    else:
+        b=random.randint(100, size=(vectorSize))
 
-# res = x - y
-# res = res ** 2
-# res = np.mean(res, axis=0)
-# res = np.sqrt(res)
+    # res = x - y
+    # res = res ** 2
+    # res = np.mean(res, axis=0)
+    # res = np.sqrt(res)
 
-if degenerate:
-    res = np.sqrt(((x - y) ** 2).mean())
-print(ex_0(0, 100, 100))
+    res = np.sqrt(((a - b) ** 2).mean())
+    return res
 
-t = np.linspace(0, 2*math.pi, 400)
-a = np.sin(t)
-plt.plot(t, a, 'r') # plotting t, a separately
+def approx(phase):
+    t = np.linspace(0, 100, 100)
+    x = np.cos(4 * math.pi * t + math.pi / 2)
+    return x
+
+y = ex_0(0, 100, 100)
+plt.plot(t, x, 'r')
 plt.show()
+
+print(rmse(x, y))
 
 
 
