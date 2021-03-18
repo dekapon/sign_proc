@@ -96,7 +96,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -214,6 +214,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.hw0_ex0_meindi_zahiri" />
+      <item itemvalue="Python.hw0_ex1_meindi_zahiri" />
+      <item itemvalue="Python.hw1_ex1_meindi_zahiri" />
+      <item itemvalue="Python.hw1_ex2_meindi_zahiri" />
+      <item itemvalue="Python.hw1_ex3_meindi_zahiri" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.hw1_ex3_meindi_zahiri" />
@@ -238,7 +245,9 @@
       <workItem from="1615555951335" duration="17200000" />
       <workItem from="1615713998008" duration="9078000" />
       <workItem from="1615802784134" duration="1560000" />
-      <workItem from="1615816844171" duration="3645000" />
+      <workItem from="1615816844171" duration="4303000" />
+      <workItem from="1616057566464" duration="3539000" />
+      <workItem from="1616066454635" duration="6939000" />
     </task>
     <servers />
   </component>
@@ -287,7 +296,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ex_1$hw1_ex3_meindi_zahiri.coverage" NAME="hw1_ex3_meindi_zahiri Coverage Results" MODIFIED="1615819518517" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ex_1$hw1_ex3_meindi_zahiri.coverage" NAME="hw1_ex3_meindi_zahiri Coverage Results" MODIFIED="1616075391268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../ex_0/venv/hw0_ex0_meindi_zahiri.py">
