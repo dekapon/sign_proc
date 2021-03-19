@@ -52,6 +52,8 @@ plt.show()
 # 1.3
 # samplerate, audioIn = wavfile.read('peter.wav')
 audioIn, samplerate = sf.read('peter.wav')
+print(min(audioIn))
+print(max(audioIn))
 
 if test:
     bitsDepth = [2, 3, 4]

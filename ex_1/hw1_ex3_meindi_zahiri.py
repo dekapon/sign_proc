@@ -6,7 +6,6 @@ import numpy as np
 import time
 from decimal import *
 
-
 print(f'Hello world homework 1 ex 3')
 t = time.time()
 
@@ -29,15 +28,16 @@ def interp(y_vals, x_vals, x_new):
     for i in range(size_new):
         if x_new[i] <= x_vals[0]:
             y_new[i] = y_vals[0]
-        elif x_new[i] >= x_vals[size_values-1]:
-            y_new[i] = y_vals[size_values-1]
+        elif x_new[i] >= x_vals[size_values - 1]:
+            y_new[i] = y_vals[size_values - 1]
         else:
             j = np.searchsorted(x_vals, x_new[i])
-            dx = x_vals[j] - x_vals[j-1]
-            dy = y_vals[j] - y_vals[j-1]
-            y_new[i] = y_vals[j-1] + ((x_new[i] - x_vals[j-1]) * dy/dx)
+            dx = x_vals[j] - x_vals[j - 1]
+            dy = y_vals[j] - y_vals[j - 1]
+            y_new[i] = y_vals[j - 1] + ((x_new[i] - x_vals[j - 1]) * dy / dx)
 
     return y_new
+
 
 def test_interp():
     # Tests the interp() function with a known input and output
@@ -50,6 +50,7 @@ def test_interp():
     y_new_result = interp(y, x, x_new)
     np.testing.assert_almost_equal(y_new_solution, y_new_result)
 
+
 def interp_1D(signal, scale_factor):
     # Linearly interpolates one dimensional signal by a given saling fcator
     #
@@ -60,24 +61,11 @@ def interp_1D(signal, scale_factor):
     # Outputs:
     #   signal_interp: Interpolated 1D signal, numpy array
 
-    ################### PLEASE FILL IN THIS PART ###############################
-    # signal_interp = scale_factor * len(signal) * [0]
-    # signal_interp = np.linspace(signal[0], signal[-1], scale_factor * len(signal),)
-
-    # signal_interp = np.linspace(signal[0], signal[-1], 16)
-
-    # signal_interp = signal_interp * 10000
-    # for i in range (16):
-    #     np.format_float_positional(signal_interp[i], precision=5)
-    #     pass
-    # print(signal_interp)
-    # print(Decimal(signal))
-    # print(signal_interp[0].format(1.6))
-    # print('{:.18f}'.format(signal_interp[0]))
-    # print(signal_interp[-1])
-    signal_interp = interp(signal,np.linspace(1,len(signal),len(signal)),np.linspace(1,len(signal),scale_factor * len(signal)))
+    signal_interp = interp(signal, np.linspace(1, len(signal), len(signal)),
+                           np.linspace(1, len(signal), scale_factor * len(signal)))
 
     return signal_interp
+
 
 def test_interp_1D():
     # Test the interp_1D() function with a known input and output
@@ -95,6 +83,48 @@ def test_interp_1D():
     y_rescaled_result = interp_1D(y, 2)
     np.testing.assert_almost_equal(y_rescaled_solution, y_rescaled_result)
 
+def interp_2D(img, scale_factor):
+    # Applies bilinear interpolation using 1D linear interpolation
+    # It first interpolates in one dimension and passes to the next dimension
+    #
+    # Inputs:
+    #   img: 2D signal/image (grayscale or RGB), numpy array
+    #   scale_factor: Scaling factor, float
+    #
+    # Outputs:
+    #   img_interp: interpolated image with the expected output shape, numpy array
+
+    ################### PLEASE FILL IN THIS PART ###############################
+    # for i in range (size(img)):
+    # img = interp_1D()
+    # print(len(img))
+    # print(len(img[0]))
+    #
+    rows = len(img)
+    columns = len(img[0])
+    tempVector = []
+    # for i in range(columns):
+    #     for j in range(rows):
+    #         tempVector = interp_1D(img[j,:],2)
+print(img)
+tempVector = interp_1D(img[0, :], 2)
+print(tempVector)
+
+img_interp = 0
+    # return img_interp
+
+def test_interp_2D():
+    # Tests interp_2D() function with a known and unknown output
+    # Leads to error if test fails
+
+    matrix = np.array([[1, 2, 3], [4, 5, 6]])
+    matrix_scaled = np.array([[1., 1.4, 1.8, 2.2, 2.6, 3.],
+                              [2., 2.4, 2.8, 3.2, 3.6, 4.],
+                              [3., 3.4, 3.8, 4.2, 4.6, 5.],
+                              [4., 4.4, 4.8, 5.2, 5.6, 6.]])
+
+    result = interp_2D(matrix, 2)
+    np.testing.assert_almost_equal(matrix_scaled, result)
 
 # ex 3.1.2
 def create_image(m, n):
@@ -174,8 +204,8 @@ def rescaling_1D(signal, scaling_factor):
 test = True
 if test:
     # test_interp()
-    test_interp_1D()
-
+    # test_interp_1D()
+    test_interp_2D()
 else:
     m = 10  # width
     n = 1  # height
