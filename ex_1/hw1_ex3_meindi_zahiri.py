@@ -83,6 +83,7 @@ def test_interp_1D():
     y_rescaled_result = interp_1D(y, 2)
     np.testing.assert_almost_equal(y_rescaled_solution, y_rescaled_result)
 
+
 def interp_2D(img, scale_factor):
     # Applies bilinear interpolation using 1D linear interpolation
     # It first interpolates in one dimension and passes to the next dimension
@@ -102,16 +103,32 @@ def interp_2D(img, scale_factor):
     #
     rows = len(img)
     columns = len(img[0])
-    tempVector = []
+    # tempVector = np.array([[0] * columns * scale_factor for i in range(rows * scale_factor)])
+    tempVector = np.array([[0] * columns * scale_factor for i in range(rows)]).astype(float)
     # for i in range(columns):
     #     for j in range(rows):
     #         tempVector = interp_1D(img[j,:],2)
-print(img)
-tempVector = interp_1D(img[0, :], 2)
-print(tempVector)
+    # print(img)
+    for i in range(rows):
+        # tempVector = np.append(tempVector, interp_1D(img[i, :], 2), axis=0)
+        # tempVector[i, :] = interp_1D(img[i, :],2)
+        # print(interp_1D(img[i, :], 2))
+        # tempVector[i,:] = np.array(interp_1D(img[i, :], 2)).astype(float)
+        tempVector[i, :] = np.array(interp_1D(img[i, :], 2))
+        # print(tempVector[i, :]
+    img_interp = np.array([[0] * columns * scale_factor for i in range(rows * scale_factor)]).astype(float)
+    # print("img interp:\n" + str(img_interp))
+    for i in range(columns * scale_factor):
+        # img_interp[:, i] = np.array(interp_1D(img[:, i], 2))
+        # print("i = " + str(i) + str(np.array(interp_1D(tempVector[:, i], 2))))
+        # print(np.array(tempVector[:, i]))
+        # print(np.array(interp_1D(tempVector[:, i], 2)))
+        img_interp[:,i] = np.array(interp_1D(tempVector[:, i], 2))
+    # print(tempVector)
+    # print(img_interp)
+    # img_interp = 0
+    return img_interp
 
-img_interp = 0
-    # return img_interp
 
 def test_interp_2D():
     # Tests interp_2D() function with a known and unknown output
@@ -125,6 +142,7 @@ def test_interp_2D():
 
     result = interp_2D(matrix, 2)
     np.testing.assert_almost_equal(matrix_scaled, result)
+
 
 # ex 3.1.2
 def create_image(m, n):
