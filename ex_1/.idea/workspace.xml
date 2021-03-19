@@ -8,10 +8,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="498ace53-31ee-43a8-8f2a-bb780da18b15" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../ex_0/.idea/ex_0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ex_0/.idea/ex_0.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ex_1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ex_1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw1_ex3_meindi_zahiri.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1_ex3_meindi_zahiri.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/../ex_0/venv/" />
@@ -32,14 +28,14 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.5942029">
       <split-first>
         <leaf>
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/hw1_ex3_meindi_zahiri.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="772">
-                  <caret line="128" column="20" lean-forward="true" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="20" />
+                <state relative-caret-position="279">
+                  <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
                 </state>
               </provider>
             </entry>
@@ -60,8 +56,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/hw1_ex3_meindi_zahiri.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-264">
-                  <caret line="113" column="49" selection-start-line="113" selection-start-column="49" selection-end-line="113" selection-end-column="49" />
+                <state relative-caret-position="-43">
+                  <caret line="101" column="25" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
                 </state>
               </provider>
             </entry>
@@ -344,12 +340,12 @@
       <workItem from="1615816844171" duration="4303000" />
       <workItem from="1616057566464" duration="3539000" />
       <workItem from="1616066454635" duration="11764000" />
-      <workItem from="1616145343496" duration="7978000" />
+      <workItem from="1616145343496" duration="8054000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35816000" />
+    <option name="totallyTimeSpent" value="35892000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1276" y="0" width="2566" height="1047" extended-state="0" />
@@ -384,13 +380,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/hw1_ex3_meindi_zahiri.py</url>
-          <line>128</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -487,8 +476,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hw1_ex3_meindi_zahiri.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="772">
-          <caret line="128" column="20" lean-forward="true" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="20" />
+        <state relative-caret-position="279">
+          <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
         </state>
       </provider>
     </entry>

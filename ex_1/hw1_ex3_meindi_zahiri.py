@@ -95,38 +95,15 @@ def interp_2D(img, scale_factor):
     # Outputs:
     #   img_interp: interpolated image with the expected output shape, numpy array
 
-    ################### PLEASE FILL IN THIS PART ###############################
-    # for i in range (size(img)):
-    # img = interp_1D()
-    # print(len(img))
-    # print(len(img[0]))
-    #
+
     rows = len(img)
     columns = len(img[0])
-    # tempVector = np.array([[0] * columns * scale_factor for i in range(rows * scale_factor)])
     tempVector = np.array([[0] * columns * scale_factor for i in range(rows)]).astype(float)
-    # for i in range(columns):
-    #     for j in range(rows):
-    #         tempVector = interp_1D(img[j,:],2)
-    # print(img)
     for i in range(rows):
-        # tempVector = np.append(tempVector, interp_1D(img[i, :], 2), axis=0)
-        # tempVector[i, :] = interp_1D(img[i, :],2)
-        # print(interp_1D(img[i, :], 2))
-        # tempVector[i,:] = np.array(interp_1D(img[i, :], 2)).astype(float)
-        tempVector[i, :] = np.array(interp_1D(img[i, :], 2))
-        # print(tempVector[i, :]
+        tempVector[i, :] = np.array(interp_1D(img[i, :], scale_factor))
     img_interp = np.array([[0] * columns * scale_factor for i in range(rows * scale_factor)]).astype(float)
-    # print("img interp:\n" + str(img_interp))
     for i in range(columns * scale_factor):
-        # img_interp[:, i] = np.array(interp_1D(img[:, i], 2))
-        # print("i = " + str(i) + str(np.array(interp_1D(tempVector[:, i], 2))))
-        # print(np.array(tempVector[:, i]))
-        # print(np.array(interp_1D(tempVector[:, i], 2)))
-        img_interp[:,i] = np.array(interp_1D(tempVector[:, i], 2))
-    # print(tempVector)
-    # print(img_interp)
-    # img_interp = 0
+        img_interp[:, i] = np.array(interp_1D(tempVector[:, i], scale_factor))
     return img_interp
 
 
