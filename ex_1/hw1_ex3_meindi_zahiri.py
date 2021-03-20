@@ -4,6 +4,8 @@ from random import uniform
 from random import randint
 import numpy as np
 import time
+import os
+
 from decimal import *
 
 print(f'Hello world homework 1 ex 3')
@@ -62,7 +64,7 @@ def interp_1D(signal, scale_factor):
     #   signal_interp: Interpolated 1D signal, numpy array
 
     signal_interp = interp(signal, np.linspace(1, len(signal), len(signal)),
-                           np.linspace(1, len(signal), scale_factor * len(signal)))
+                           np.linspace(1, len(signal), int(scale_factor * len(signal))))
 
     return signal_interp
 
@@ -94,16 +96,16 @@ def interp_2D(img, scale_factor):
     #
     # Outputs:
     #   img_interp: interpolated image with the expected output shape, numpy array
-
-
     rows = len(img)
+    # print(rows)
     columns = len(img[0])
-    tempVector = np.array([[0] * columns * scale_factor for i in range(rows)]).astype(float)
+    tempVector = np.array([[0] * int(columns * scale_factor) for i in range(rows)]).astype(float)
     for i in range(rows):
         tempVector[i, :] = np.array(interp_1D(img[i, :], scale_factor))
-    img_interp = np.array([[0] * columns * scale_factor for i in range(rows * scale_factor)]).astype(float)
-    for i in range(columns * scale_factor):
+    img_interp = np.array([[0] * int(columns * scale_factor) for i in range(int(rows * scale_factor))]).astype(float)
+    for i in range(int(columns * scale_factor)):
         img_interp[:, i] = np.array(interp_1D(tempVector[:, i], scale_factor))
+    # print(len(img_interp))
     return img_interp
 
 
@@ -179,8 +181,22 @@ def rescaling_2D(signal, scaling_factor, multichannel):
                 pass  # change this
             else:
                 result.putpixel((x * scaling_factor + y, 0), signal.getpixel((x, 0)))
-
     return result
+
+
+def interp_3D(img, scale_factor):
+    r = img[:, :, 0]
+    g = img[:, :, 1]
+    b = img[:, :, 2]
+    # for i in range(3):
+    r_rescaled = interp_2D(r, scale_factor)
+    print("r channel done")
+    g_rescaled = interp_2D(g, scale_factor)
+    print("g channel done")
+    b_rescaled = interp_2D(b, scale_factor)
+    print("b channel done")
+    return np.dstack((r_rescaled,g_rescaled,b_rescaled))
+    # return Image.merge("RGB", (r, g, b))
 
 
 def rescaling_1D(signal, scaling_factor):
@@ -198,9 +214,58 @@ def rescaling_1D(signal, scaling_factor):
 
 test = True
 if test:
+    filename = 'bird.jpg'
+    filename = 'lenna.jpg'
+    # filename = 'butterfly.jpg'
+    scale_factor = 1.5  # Scaling factor
+    # scale_factor = 5  # Scaling factor
+    print('...................................................')
+    # print('Testing test_interp()...')
     # test_interp()
+    # print('done.')
+    #
+    # print('Testing interp_1D()....')
     # test_interp_1D()
-    test_interp_2D()
+    # print('done.')
+    #
+    # print('Testing interp_2D()....')
+    # test_interp_2D()
+    # print('done.')
+
+    print('Testing bilinear interpolation of an image...')
+    # Read image as a matrix, get image shapes before and after interpolation
+    img = (plt.imread(filename)).astype('float')  # need to convert to float
+    in_shape = img.shape  # Input image shape
+
+    # Apply bilinear interpolation
+    # print(len(img.shape))
+    if (len(img.shape) == 1):
+        img_int = interp_2D(img, scale_factor)
+    else:
+        img_int = interp_3D(img, scale_factor)
+    print('done.')
+
+    # Now, we save the interpolated image and show the results
+    print('Plotting and saving results...')
+    plt.figure()
+    plt.imshow(img_int.astype('uint8'))  # Get back to uint8 data type
+    filename, _ = os.path.splitext(filename)
+    plt.savefig('{}_rescaled.jpg'.format(filename))
+    plt.close()
+
+    plt.figure()
+    plt.subplot(1, 2, 1)
+    plt.imshow(img.astype('uint8'))
+    plt.title('Original')
+    plt.subplot(1, 2, 2)
+    plt.imshow(img_int.astype('uint8'))
+    plt.title('Rescaled by {:2f}'.format(scale_factor))
+    print('Do not forget to close the plot window --- it happens:) ')
+    plt.show()
+
+    print('done.')
+
+
 else:
     m = 10  # width
     n = 1  # height
