@@ -1,26 +1,12 @@
 import matplotlib.pyplot as plt
-from PIL import Image, ImageDraw
+from PIL import Image
 from random import uniform
-from random import randint
 import numpy as np
 import time
 import os
 
-from decimal import *
-
 print(f'Hello world homework 1 ex 3')
 t = time.time()
-
-
-# def interp(y_vals, x_vals, x_new):
-#     y_new = []
-#     for i in range(x_new.size):
-#         if x_new[i] >= np.min(x_vals) and x_new[i] <= np.max(x_vals):
-#             ytemp = y_vals[i](1 - (x_new[i] - x_vals[i]) / (x_vals[i + 1] - x_vals[i])) + y_vals[i + 1](x_new[i] - x_vals[i]) / (x_vals[i + 1] - x_vals[i])
-#             y_new.append(ytemp)
-#         else:
-#             y_new.append(y_vals[i])
-#     return y_new
 
 def interp(y_vals, x_vals, x_new):
     size_new = len(x_new)
@@ -37,7 +23,6 @@ def interp(y_vals, x_vals, x_new):
             dx = x_vals[j] - x_vals[j - 1]
             dy = y_vals[j] - y_vals[j - 1]
             y_new[i] = y_vals[j - 1] + ((x_new[i] - x_vals[j - 1]) * dy / dx)
-
     return y_new
 
 
@@ -65,7 +50,6 @@ def interp_1D(signal, scale_factor):
 
     signal_interp = interp(signal, np.linspace(1, len(signal), len(signal)),
                            np.linspace(1, len(signal), int(scale_factor * len(signal))))
-
     return signal_interp
 
 
@@ -97,7 +81,6 @@ def interp_2D(img, scale_factor):
     # Outputs:
     #   img_interp: interpolated image with the expected output shape, numpy array
     rows = len(img)
-    # print(rows)
     columns = len(img[0])
     tempVector = np.array([[0] * int(columns * scale_factor) for i in range(rows)]).astype(float)
     for i in range(rows):
@@ -105,7 +88,6 @@ def interp_2D(img, scale_factor):
     img_interp = np.array([[0] * int(columns * scale_factor) for i in range(int(rows * scale_factor))]).astype(float)
     for i in range(int(columns * scale_factor)):
         img_interp[:, i] = np.array(interp_1D(tempVector[:, i], scale_factor))
-    # print(len(img_interp))
     return img_interp
 
 
@@ -121,34 +103,6 @@ def test_interp_2D():
 
     result = interp_2D(matrix, 2)
     np.testing.assert_almost_equal(matrix_scaled, result)
-
-
-# ex 3.1.2
-def create_image(m, n):
-    m = int(m)
-    n = int(n)
-    global img
-    img = Image.new('RGB', (m, n), color='white')
-    # img.save('img.png')
-    for x in range(m):
-        for y in range(n):
-            if uniform(0.0, 2.0) < 1.0:
-                # img[m, n] = (0, 0, 0)
-                img.putpixel((x, y), (0, 0, 0))
-            else:
-                img.putpixel((x, y), (255, 0, 0))
-
-    green_x = randint(0, m * n - 1)
-    green_y = green_x
-    green_x = green_x // m
-    green_y = green_y % n
-
-    img.putpixel((green_x, green_y), (0, 255, 0))
-    # img.show()
-    plt.imshow(img)
-    plt.show()
-    img.save('img.png')
-    return img
 
 
 def createGrayscale(m, n):
@@ -170,25 +124,10 @@ def createGrayscale(m, n):
     return img
 
 
-def rescaling_2D(signal, scaling_factor, multichannel):
-    width, height = signal.size
-    # create new image
-    result = Image.new('RGB', (scaling_factor * m, 1), color='white')  # 1 is n
-    for x in range(m):
-        for y in range(scaling_factor):
-            # put here an if for multichannel to apply to the 3 channels
-            if multichannel:
-                pass  # change this
-            else:
-                result.putpixel((x * scaling_factor + y, 0), signal.getpixel((x, 0)))
-    return result
-
-
 def interp_3D(img, scale_factor):
     r = img[:, :, 0]
     g = img[:, :, 1]
     b = img[:, :, 2]
-    # for i in range(3):
     r_rescaled = interp_2D(r, scale_factor)
     print("r channel done")
     g_rescaled = interp_2D(g, scale_factor)
@@ -196,91 +135,43 @@ def interp_3D(img, scale_factor):
     b_rescaled = interp_2D(b, scale_factor)
     print("b channel done")
     return np.dstack((r_rescaled,g_rescaled,b_rescaled))
-    # return Image.merge("RGB", (r, g, b))
 
 
-def rescaling_1D(signal, scaling_factor):
-    width, height = signal.size
-    # print("width: " + str(width) + " height: " + str(height))
-    # create new image
-    result = Image.new('RGB', (scaling_factor * m, 1), color='white')  # 1 is n
-    for x in range(m):
-        for y in range(scaling_factor):
-            # print("x: " + str(x) + " y: " + str(y) + "new x: " + str(x*scaling_factor+y))
-            result.putpixel((x * scaling_factor + y, 0), signal.getpixel((x, 0)))
+# filename = 'bird.jpg'
+filename = 'lenna.jpg'
+scale_factor = 1.5  # Scaling factor
+print('...................................................')
 
-    return result
+print('Testing bilinear interpolation of an image...')
+# Read image as a matrix, get image shapes before and after interpolation
+img = (plt.imread(filename)).astype('float')  # need to convert to float
+in_shape = img.shape  # Input image shape
 
-
-test = True
-if test:
-    filename = 'bird.jpg'
-    filename = 'lenna.jpg'
-    # filename = 'butterfly.jpg'
-    scale_factor = 1.5  # Scaling factor
-    # scale_factor = 5  # Scaling factor
-    print('...................................................')
-    # print('Testing test_interp()...')
-    # test_interp()
-    # print('done.')
-    #
-    # print('Testing interp_1D()....')
-    # test_interp_1D()
-    # print('done.')
-    #
-    # print('Testing interp_2D()....')
-    # test_interp_2D()
-    # print('done.')
-
-    print('Testing bilinear interpolation of an image...')
-    # Read image as a matrix, get image shapes before and after interpolation
-    img = (plt.imread(filename)).astype('float')  # need to convert to float
-    in_shape = img.shape  # Input image shape
-
-    # Apply bilinear interpolation
-    # print(len(img.shape))
-    if (len(img.shape) == 1):
-        img_int = interp_2D(img, scale_factor)
-    else:
-        img_int = interp_3D(img, scale_factor)
-    print('done.')
-
-    # Now, we save the interpolated image and show the results
-    print('Plotting and saving results...')
-    plt.figure()
-    plt.imshow(img_int.astype('uint8'))  # Get back to uint8 data type
-    filename, _ = os.path.splitext(filename)
-    plt.savefig('{}_rescaled.jpg'.format(filename))
-    plt.close()
-
-    plt.figure()
-    plt.subplot(1, 2, 1)
-    plt.imshow(img.astype('uint8'))
-    plt.title('Original')
-    plt.subplot(1, 2, 2)
-    plt.imshow(img_int.astype('uint8'))
-    plt.title('Rescaled by {:2f}'.format(scale_factor))
-    print('Do not forget to close the plot window --- it happens:) ')
-    plt.show()
-
-    print('done.')
-
-
+# Apply bilinear interpolation
+if (len(img.shape) == 1):
+    img_int = interp_2D(img, scale_factor)
 else:
-    m = 10  # width
-    n = 1  # height
-    img = create_image(m, n)
+    img_int = interp_3D(img, scale_factor)
+print('done.')
 
-    newimage = rescaling_1D(img, 4)
-    plt.imshow(newimage)
-    plt.show()
+# Now, we save the interpolated image and show the results
+print('Plotting and saving results...')
+plt.figure()
+plt.imshow(img_int.astype('uint8'))  # Get back to uint8 data type
+filename, _ = os.path.splitext(filename)
+plt.savefig('{}_rescaled.jpg'.format(filename))
+plt.close()
 
-    # 3.2.1
-    grayscaleImage = createGrayscale(4, 4)
-    grayscaleImageRescaled = rescaling_2D(grayscaleImage, 2, False)
-    plt.imshow(grayscaleImage)
-    plt.imshow(grayscaleImageRescaled)
-    plt.show()
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.imshow(img.astype('uint8'))
+plt.title('Original')
+plt.subplot(1, 2, 2)
+plt.imshow(img_int.astype('uint8'))
+plt.title('Rescaled by {:2f}'.format(scale_factor))
+print('Do not forget to close the plot window --- it happens:) ')
+plt.show()
+print('done.')
 
 elapsed = time.time() - t
 print("done, elapsed time: " + str(elapsed) + " s")
