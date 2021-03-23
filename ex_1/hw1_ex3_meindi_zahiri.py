@@ -137,8 +137,8 @@ def interp_3D(img, scale_factor):
     return np.dstack((r_rescaled,g_rescaled,b_rescaled))
 
 
-# filename = 'bird.jpg'
-filename = 'lenna.jpg'
+filename = 'bird.jpg'
+# filename = 'lenna.jpg'
 scale_factor = 1.5  # Scaling factor
 print('...................................................')
 
@@ -148,7 +148,8 @@ img = (plt.imread(filename)).astype('float')  # need to convert to float
 in_shape = img.shape  # Input image shape
 
 # Apply bilinear interpolation
-if (len(img.shape) == 1):
+print(len(img.shape))
+if (len(img.shape) == 2):
     img_int = interp_2D(img, scale_factor)
 else:
     img_int = interp_3D(img, scale_factor)

@@ -12,7 +12,6 @@ t = time.time()
 def uniform_quantization(inputSig, min_amplitude, max_amplitude, quantization_levels):
     to_values = np.linspace(min_amplitude, max_amplitude, quantization_levels)
     outputSig = [0] * inputSig.size
-
     for i in range(inputSig.size):
         best_match = None
         best_match_diff = None
