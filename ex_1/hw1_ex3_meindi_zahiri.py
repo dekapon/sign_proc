@@ -137,10 +137,25 @@ def interp_3D(img, scale_factor):
     return np.dstack((r_rescaled,g_rescaled,b_rescaled))
 
 
-filename = 'bird.jpg'
-# filename = 'lenna.jpg'
+
+
+
+# filename = 'bird.jpg'
+filename = 'lenna.jpg'
 scale_factor = 1.5  # Scaling factor
 print('...................................................')
+
+print('Testing test_interp()...')
+test_interp()
+print('done.')
+
+print('Testing interp_1D()....')
+test_interp_1D()
+print('done.')
+
+print('Testing interp_2D()....')
+test_interp_2D()
+print('done.')
 
 print('Testing bilinear interpolation of an image...')
 # Read image as a matrix, get image shapes before and after interpolation
@@ -148,7 +163,6 @@ img = (plt.imread(filename)).astype('float')  # need to convert to float
 in_shape = img.shape  # Input image shape
 
 # Apply bilinear interpolation
-print(len(img.shape))
 if (len(img.shape) == 2):
     img_int = interp_2D(img, scale_factor)
 else:
