@@ -17,10 +17,8 @@ plt.show()
 # 1.1
 def boxfilter(n):
     # this function returns a box filter of size nxn
-
-    ### your code should go here ###
-
-    return box_filter
+    result = np.array([[1/(n*n)] * n for i in range(n)])
+    return result
 
 # 1.2
 # Implement full convolution
@@ -115,9 +113,12 @@ size_range = np.arange(3, 103, 5)
 t1d = []
 t2d = []
 for size in size_range:
-
+    pass
     ### your code should go here ###
 
+
+print("test")
+boxfilter(2)
 
 # plot the comparison of the time needed for each of the two convolution cases
 plt.plot(size_range, t1d, label='1D filtering')
