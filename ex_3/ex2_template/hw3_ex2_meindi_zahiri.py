@@ -86,11 +86,17 @@ while (len(fill_indices[0])  > 0):
     while(len(edge_pixels[0]) > 0):
 
         # Pick a random pixel from the fill_region_edge
-        patch_center_i, patch_center_j = None, None
+        edge_pixels_index = list(zip(*edge_pixels))
+        index = np.random.randint(0, len(edge_pixels[0])) # index of the patch center
+        patch_center_i, patch_center_j = edge_pixels_index[index]
 
         # Isolate the patch to fill, and its mask
-        patch_to_fill = None
-        patch_mask = None
+        patch_to_fill = im_filled[
+                        patch_center_i - patch_half_size: patch_center_i + patch_half_size + 1,
+                        patch_center_j - patch_half_size: patch_center_j + patch_half_size + 1, :]
+        patch_mask = fill_region[
+                     patch_center_i - patch_half_size: patch_center_i + patch_half_size + 1,
+                     patch_center_j - patch_half_size: patch_center_j + patch_half_size + 1]
 
         #
         # Compute masked SSD of patch_to_fill and texture_img
@@ -98,12 +104,13 @@ while (len(fill_indices[0])  > 0):
         ssd_img = utls.compute_ssd(patch_to_fill, patch_mask, texture_img, patch_half_size)
 
         # Select the best texture patch
-        selected_center_i, selected_center_j = None, None
+        selected_center_i, selected_center_j = np.unravel_index(ssd_img.argmin(), ssd_img.shape)
+
 
         #
         # Copy patch into masked region
         #
-        im_filled = utls.copy_patch(im_filled, patch_mask, texture_img, patch_center_i, patch_center_j, selected_center_j, selected_center_j, patch_half_size)
+        im_filled = utls.copy_patch(im_filled, patch_mask, texture_img, patch_center_i, patch_center_j, selected_center_i, selected_center_j, patch_half_size)
 
         # Update fill_region_edge and fill_region by removing locations that overlapped the patch
 

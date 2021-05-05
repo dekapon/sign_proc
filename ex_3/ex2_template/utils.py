@@ -27,19 +27,33 @@ def compute_ssd(patch, mask, texture, patch_half_size):
     # Outputs:
     #   ssd: numpy array of size (tex_rows - 2 * patch_half_size, tex_cols - 2 * patch_half_size)
 
-    patch_rows, patch_cols = np.shape(patch)[0,1]
+    # patch_rows, patch_cols = np.shape(patch)[0,1]
+    patch_rows, patch_cols = np.shape(patch)[:2]
     assert patch_rows == 2 * patch_half_size + 1 and patch_cols == 2 * patch_half_size + 1, "patch size and patch_half_size do not match"
-    tex_rows, tex_cols = np.shape(texture)[0:1]
+    # tex_rows, tex_cols = np.shape(texture)[0:1]
+    tex_rows, tex_cols = np.shape(texture)[:2]
     ssd_rows = tex_rows - 2 * patch_half_size
     ssd_cols = tex_cols - 2 * patch_half_size
     ssd = np.zeros((ssd_rows, ssd_cols))
+
+    mask_idx = (mask == 255)
+    patch[mask_idx] = 0
+
     for ind, value in np.ndenumerate(ssd):
+        #
+        # ADD YOUR CODE HERE
+        #
+        x, y = ind
+        offset_x = x + patch_half_size
+        offset_y = y + patch_half_size
+        local_tex = texture[
+                    offset_x - patch_half_size: offset_x + patch_half_size + 1,
+                    offset_y - patch_half_size: offset_y + patch_half_size + 1,
+                    :]
+        ssd[x, y] = np.power(np.sum(patch - local_tex), 2)
 
-            #
-            # ADD YOUR CODE HERE
-            #
 
-            pass
+
 
     return ssd
 
@@ -69,17 +83,17 @@ def copy_patch(img, mask, texture, iPatchCenter, jPatchCenter, iMatchCenter, jMa
     jPatchTopLeft = jPatchCenter - patch_half_size
     iMatchTopLeft = iMatchCenter - patch_half_size
     jMatchTopLeft = jMatchCenter - patch_half_size
+    temp = texture[iMatchTopLeft : iMatchTopLeft + patchSize, jMatchTopLeft : jMatchTopLeft + patchSize, :]
+    mask_idx = (mask == 255)
+    # if mask == 255:
+    #     mask_idx = True
+    # res = img
     for i in range(patchSize):
         for j in range(patchSize):
+            if mask_idx[i, j]:
+                img[iPatchTopLeft + i, jPatchTopLeft + j, :] = temp[i, j, :]
 
-            #
-            # ADD YOUR CODE HERE
-            #
-
-            pass
-        pass
-
-    return res
+    return img
 
 
 def find_edge(mask):
