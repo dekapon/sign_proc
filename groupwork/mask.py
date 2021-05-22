@@ -4,14 +4,27 @@ from skimage import color
 import matplotlib.pyplot as plt
 import numpy as np
 
+from skimage.util import crop
+
 def mask(filename):
+
+
+
     # load image
     image = io.imread('Train-Data/SRF/input' + filename + '.png')
     #plt.rcParams['image.cmap'] = 'gray'
     #image = color.rgb2gray(image)
 
-    
 
+    # cropping
+    top = 15
+    right = 12
+    bottom = 35
+    left = 50
+    B = crop(image, ((top, bottom), (left, right), (0, 0)), copy=False)
+
+    plt.imshow(B)
+    plt.show()
     #blur the image
     sigma = 5
     blur = color.rgb2gray(image)
@@ -39,5 +52,5 @@ def mask(filename):
     plt.imshow(sel)
 
     plt.show()
-
+    
     return sel
