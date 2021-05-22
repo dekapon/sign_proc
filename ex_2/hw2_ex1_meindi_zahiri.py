@@ -34,8 +34,40 @@ def myconv2(image, filt):
     # img_filtered    : 2D filtered image, of size (m+k-1)x(n+l-1)
 
     ### your code should go here ###
-
-    return filtered_img
+    # prenier nombre = nbre colonnes
+    #print(image.width)
+    filt = np.flip(filt, 0)
+    filt = np.flip(filt, 1)
+    m = len(image)
+    n = len(image[0])
+    k = filt.shape[0]
+    l = filt.shape[1]
+    expandedMatrix = np.array([[0] * (m+k-1) for i in range(n+l-1)])
+    for i in range(m):
+        for j in range(n):
+            #print("i:" + str(i) + "   j: " + str(j))
+            #print("iter i:" + str(i+(k-1)/2) + "   j: " + str(j+(l-1)/2))
+            expandedMatrix[i+int((k-1)/2)][j+int((l-1)/2)] = image[i][j]
+    result = expandedMatrix
+    #print(result)
+    # looping through the result matrice
+    for i in range (int((k-1)/2),m):
+        for j in range (int((l-1)/2),n):
+            # looping through the small matrice
+            tempValue = 0 # value used for the sum
+            for o in range(k):
+                for p in range(l):
+                    #if (i<0 or j<0 or i>=m or j>=n): # we add 0
+                       # pass
+                    #else:
+                        #tempValue = tempValue + filt[k][l] * image[i][j]
+                    tempValue = tempValue + expandedMatrix[i+o-1][j+p-1] * filt[o][p]
+            print(tempValue)
+            result[i][j] = tempValue
+                    #print(expandedMatrix[i+o-1][j+p-1])
+            #flip
+    print(result)
+    return result
 
 
 # 1.3
@@ -117,8 +149,22 @@ for size in size_range:
     ### your code should go here ###
 
 
-print("test")
-boxfilter(2)
+
+image = plt.imread("cat.jpg")
+filt = boxfilter(3)
+
+image = np.array([[10, 11, 10, 0, 0, 1],
+[9, 11, 10, 1, 0, 1],
+[10, 9, 10, 0, 2, 1],
+[11, 10, 9, 10, 9, 11],
+[9, 10, 11, 9, 9, 11],
+[10, 9, 9, 11, 10, 10]])
+
+filt = np.array([[1, 1, 1],
+[1, 1, 1],
+[1, 1, 1]])
+filt = filt / 9
+myconv2(image,filt)
 
 # plot the comparison of the time needed for each of the two convolution cases
 plt.plot(size_range, t1d, label='1D filtering')
