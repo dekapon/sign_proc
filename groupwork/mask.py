@@ -1,97 +1,62 @@
-# imports
-from skimage import io, filters
-from skimage import color
-import matplotlib.pyplot as plt
-import numpy as np
-
-from skimage.util import crop
-
-def mask(filename):
-
-
-
-    # load image
-    image = io.imread('Train-Data/SRF/input' + filename + '.png')
-    #plt.rcParams['image.cmap'] = 'gray'
-    #image = color.rgb2gray(image)
-
+image = io.imread('Train-Data\Train-Data\hall\input' + filename + '.png')
 
     # cropping
     top = 15
     right = 12
     bottom = 35
-    bottom = 250 # test
     left = 50
     image = crop(image, ((top, bottom), (left, right), (0, 0)), copy=False)
 
-    #blur the image
-    sigma = 5
-    blur = color.rgb2gray(image)
-    blur = filters.gaussian(blur, sigma = sigma)
+    plt.rcParams['image.cmap'] = 'gray'
+    image = color.rgb2gray(image)
+
+    # pre
+    size = (3, 3)
+    im_open = ndimage.grey_opening(image, size=size)
+    im_median = ndimage.median_filter(im_open, size=5)
+
+    # edge detect
+    edge_median = ndimage.sobel(im_median, axis=0)  # x
 
     # perform inverse binary thresholding
+    sigma = 10
+    blur = filters.gaussian(image, sigma=sigma)
     t = 0.3
     mask = blur > t
 
-    # use the mask to select the "interesting" part of the image
-    sel = np.zeros_like(image)
-    sel[mask] = image[mask]
-
-    # result of mask fct
-    plt.subplot(1, 3, 1)
-    plt.title('Original image')
-    plt.imshow(image)
-
-    plt.subplot(1,3,2)
-    plt.title('Mask')
-    plt.imshow(mask)
-
-    plt.subplot(1,3,3)
-    plt.title('ROI')
-    plt.imshow(sel)
-
+    im_masked = np.zeros_like(image)
+    im_masked[mask] = im_median[mask]
+# segmentation
+    level1 = 0.6
+    level2 = 0.4
+    level3 = 0.09
+    gray_r = im_masked.reshape(im_masked.shape[0] * im_masked.shape[1])
+    for i in range(gray_r.shape[0]):
+        if gray_r[i] > level1:
+            gray_r[i] = 3
+        elif gray_r[i] > level2:
+            gray_r[i] = 2
+        elif gray_r[i] > level3:
+            gray_r[i] = 1
+        else:
+            gray_r[i] = 0
+    im_segmented = gray_r.reshape(im_masked.shape[0], im_masked.shape[1])
+    plt.imshow(im_segmented, cmap='gray')
     plt.show()
 
-    # envelope detection probleme si concave
-    test = np.argwhere(mask)
-    minMax = np.zeros((test.shape[0],2))
+    # find contours
+    contours = np.asarray(measure.find_contours(im_segmented, level=level3))
 
-    # for i in range (test.shape[0]):
-        # np.min(test[i,:])
-        # if test[:,1] == i:
-    minMax = np.zeros((mask.shape[1], 2))
-    testy = mask.shape[0] # y
-    testx = mask.shape[1] # x
-    for x in range(mask.shape[1]):
-        detected = 0
-        for y in range(mask.shape[0]):
-            if (mask[y,x] == True and detected == 0):
-                minMax[x,0] = y
-                detected = 1
+    # plot contours
+    fig, ax = plt.subplots()
+    ax.imshow(im_segmented, cmap=plt.cm.gray)
 
-    for x in range(mask.shape[1]):
-        detected = 0
-        for y in range(mask.shape[0]-1,-1,-1):
-            if (mask[y,x] == True and detected == 0):
-                minMax[x,1] = y
-                detected = 1
+    for contour in contours:
+        ax.plot(contour[:, 1], contour[:, 0], linewidth=2)
 
-    x = np.linspace(0,507, 507)
-    minMax[:, 0] = minMax[:,0]
-    minMax[:, 1] = minMax[:,1]
+    ax.axis('image')
+    ax.set_xticks([])
+    ax.set_yticks([])
     plt.show()
 
-    # put envelope on image
-    superposition = image
-    for x in range(mask.shape[1]):
-        superposition[int(minMax[x,0]),x] = [255, 0, 0, 255]
-        superposition[int(minMax[x,1]),x] = [255, 0, 0, 255]
-    # print(int(minMax[0,0]))
-
-    # for x in range(30):
-    #     for y in range(30):
-    #         superposition[x, y] = [255, 0, 0, 255]
-
-    plt.imshow(superposition)
     plt.show()
-    return sel
