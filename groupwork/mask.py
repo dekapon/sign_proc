@@ -20,11 +20,10 @@ def mask(filename):
     top = 15
     right = 12
     bottom = 35
+    bottom = 250 # test
     left = 50
-    B = crop(image, ((top, bottom), (left, right), (0, 0)), copy=False)
+    image = crop(image, ((top, bottom), (left, right), (0, 0)), copy=False)
 
-    plt.imshow(B)
-    plt.show()
     #blur the image
     sigma = 5
     blur = color.rgb2gray(image)
@@ -52,5 +51,47 @@ def mask(filename):
     plt.imshow(sel)
 
     plt.show()
-    
+
+    # envelope detection probleme si concave
+    test = np.argwhere(mask)
+    minMax = np.zeros((test.shape[0],2))
+
+    # for i in range (test.shape[0]):
+        # np.min(test[i,:])
+        # if test[:,1] == i:
+    minMax = np.zeros((mask.shape[1], 2))
+    testy = mask.shape[0] # y
+    testx = mask.shape[1] # x
+    for x in range(mask.shape[1]):
+        detected = 0
+        for y in range(mask.shape[0]):
+            if (mask[y,x] == True and detected == 0):
+                minMax[x,0] = y
+                detected = 1
+
+    for x in range(mask.shape[1]):
+        detected = 0
+        for y in range(mask.shape[0]-1,-1,-1):
+            if (mask[y,x] == True and detected == 0):
+                minMax[x,1] = y
+                detected = 1
+
+    x = np.linspace(0,507, 507)
+    minMax[:, 0] = minMax[:,0]
+    minMax[:, 1] = minMax[:,1]
+    plt.show()
+
+    # put envelope on image
+    superposition = image
+    for x in range(mask.shape[1]):
+        superposition[int(minMax[x,0]),x] = [255, 0, 0, 255]
+        superposition[int(minMax[x,1]),x] = [255, 0, 0, 255]
+    # print(int(minMax[0,0]))
+
+    # for x in range(30):
+    #     for y in range(30):
+    #         superposition[x, y] = [255, 0, 0, 255]
+
+    plt.imshow(superposition)
+    plt.show()
     return sel
